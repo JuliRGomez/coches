@@ -22,6 +22,41 @@ let tableProperties ={
     ids:[]
 }
 let actualId='';
+let view='list';
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function CreateCard(cardProperties,img){
+    
+    let cardString=`<div class="card col-md-3 m-1">
+                        <h4 class="card-title">${cardProperties.brand}</h4>
+                        <img class="card-img-top" src="${img}" alt="Imagen de usuario">
+                        <div class="card-body">
+                            <h6 class="card-text">${cardProperties.model}</h6>
+                            <h6 class="card-text">${cardProperties.price}</h6>
+                            
+                        </div>
+                        <div class="card-footer">
+                            <h6 class="card-text">${cardProperties.year}</h6>
+                        </div>
+                    </div>`
+                     
+    return cardString;
+                                             
+}
+function printCards(cardsToPrint){
+    const cards=document.getElementById("card-users")
+    let cardReturn='';
+    cardsToPrint.forEach((car)=>{
+         cardReturn+=CreateCard(car,'https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+    })
+    cards.innerHTML=cardReturn;  
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function cleanInfo() {
+    const table=document.getElementById('table-cars');
+    const cards=document.getElementById("card-users")
+    table.innerHTML='';
+    cards.innerHTML='';
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Creatable(propertiesIn) {
     const table=document.getElementById('table-cars');
@@ -58,6 +93,7 @@ function changeItems(type){
                                 </div>         
                             </div>
                         </form>`;
+        search('refresh')
     }
     else if((type=='new')||(type=='update')){
         let textButton='';
@@ -103,7 +139,13 @@ function search(type) {
             tableProperties.rows.push([element.brand,element.model,element.color,element.year,element.price])
             tableProperties.ids.push(element.id);
         });
+        const carReturn =cars.filter((car)=>{
+            return car.id>0;
+        })
+        if(view=='list')
         Creatable(tableProperties);
+        else if(view=='mosaic')
+        printCards(carReturn);
         
     }
     else if(type=='filter'){
@@ -112,14 +154,17 @@ function search(type) {
         const matchCar= cars.filter((car)=>{
         return car.brand.includes(inText)||car.model.includes(inText)||car.color.includes(inText)||car.year.includes(inText);
         });
-        console.log(matchCar);
+        
         if(matchCar.length>0){
             tableProperties.cols=['Marca','Modelo','Color','Año','Precio'];
             tableProperties.rows=[];
             matchCar.forEach(element => {
                 tableProperties.rows.push([element.brand,element.model,element.color,element.year,element.price])
             });
+            if(view=='list')
             Creatable(tableProperties);
+            else if(view=='mosaic')
+            printCards(matchCar);
         }
         else{
             alert('No se encontró ninguna coincidencia');   
@@ -227,8 +272,30 @@ function summit(type){
     
 }
 
+function viewList(type){
+    if(type=='mosaic'){
+        document.getElementById('btn-mosaic').classList.remove('btn-secondary');
+        document.getElementById('btn-mosaic').classList.add('btn-primary');
+        document.getElementById('btn-list').classList.remove('btn-primary');
+        document.getElementById('btn-list').classList.add('btn-secondary');
+        alert('En este modo no se puede actualizar o eliminar datos');0
+    }
+    if(type=='list'){
+        document.getElementById('btn-mosaic').classList.add('btn-secondary');
+        document.getElementById('btn-mosaic').classList.remove('btn-primary');
+        document.getElementById('btn-list').classList.add('btn-primary');
+        document.getElementById('btn-list').classList.remove('btn-secondary');
+        }
+    view=type;
+    cleanInfo();
+    // document.getElementById('btn-'+type).classList.remove('btn-secondary');
+    
+}
+
+
 window.summit=summit;
 window.changeItems=changeItems;
 window.selection=selection;
 window.deleteCar=deleteCar;
 window.updateCar=updateCar;
+window.viewList=viewList;
