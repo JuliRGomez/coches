@@ -21,8 +21,9 @@ let tableProperties ={
     rows:[],
     ids:[]
 }
-let actualId='';
+let currentID='';
 let view='list';
+let currentCars;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function CreateCard(cardProperties,img){
     
@@ -146,6 +147,7 @@ function search(type) {
         Creatable(tableProperties);
         else if(view=='mosaic')
         printCards(carReturn);
+        currentCars=carReturn;
         
     }
     else if(type=='filter'){
@@ -165,6 +167,7 @@ function search(type) {
             Creatable(tableProperties);
             else if(view=='mosaic')
             printCards(matchCar);
+            currentCars=matchCar;
         }
         else{
             alert('No se encontró ninguna coincidencia');   
@@ -175,14 +178,14 @@ function search(type) {
 
 function deleteCar(){
     
-    if(actualId>0){
-        const position=cars.findIndex((car)=>car.id===actualId)
+    if(currentID>0){
+        const position=cars.findIndex((car)=>car.id===currentID)
         if (position<0){
             alert('no es posible eliminar');
         }
         else {
             cars.splice(position, 1);
-            actualId=-1;
+            currentID=-1;
             search('refresh');
             confirm("REgistro eliminado")
     }
@@ -194,8 +197,8 @@ function deleteCar(){
 }
 
 function updateCar() {
-    if(actualId>0){
-        const position=cars.findIndex((car)=>car.id===actualId)
+    if(currentID>0){
+        const position=cars.findIndex((car)=>car.id===currentID)
         if (position<0){
             alert('no es posible actualizar, asegurese de seleccionar un elemento');
         }
@@ -217,12 +220,12 @@ function updateCar() {
 }
 
 function selection(id){
-    if(actualId>0){
-        const preSelected=document.getElementById('row-id-'+actualId);  
+    if(currentID>0){
+        const preSelected=document.getElementById('row-id-'+currentID);  
         preSelected.classList.remove('bg-secondary')
     }
-    actualId=id;
-    const selected=document.getElementById('row-id-'+actualId);  
+    currentID=id;
+    const selected=document.getElementById('row-id-'+currentID);  
     selected.classList.add('bg-secondary')
     
 }
@@ -250,8 +253,8 @@ function summit(type){
         
     }
     else if(type=='update'){
-        if(actualId>0){
-            const position=cars.findIndex((car)=>car.id===actualId)
+        if(currentID>0){
+            const position=cars.findIndex((car)=>car.id===currentID)
             if (position<0){
                 alert('no es posible actualizar, asegurese de seleccionar un elemento');
             }
@@ -262,7 +265,7 @@ function summit(type){
               cars[position].year=document.getElementById('year').value.toUpperCase();
               cars[position].price=document.getElementById('price').value.toUpperCase();
               confirm("Registro actualizado")
-              actualId=-1;
+              currentID=-1;
               search('refresh');
               document.getElementById('main-form').reset();
         }
@@ -273,21 +276,30 @@ function summit(type){
 }
 
 function viewList(type){
+    view=type;
     if(type=='mosaic'){
+        cleanInfo();
         document.getElementById('btn-mosaic').classList.remove('btn-secondary');
         document.getElementById('btn-mosaic').classList.add('btn-primary');
         document.getElementById('btn-list').classList.remove('btn-primary');
         document.getElementById('btn-list').classList.add('btn-secondary');
-        alert('En este modo no se puede actualizar o eliminar datos');0
+        printCards(currentCars);
+        alert('En este modo no se puede actualizar o eliminar datos');
+        
     }
     if(type=='list'){
+        cleanInfo();
         document.getElementById('btn-mosaic').classList.add('btn-secondary');
         document.getElementById('btn-mosaic').classList.remove('btn-primary');
         document.getElementById('btn-list').classList.add('btn-primary');
         document.getElementById('btn-list').classList.remove('btn-secondary');
+        if(document.getElementById('search').value=='')
+        search('refresh');
+        else
+        search('filter');
         }
-    view=type;
-    cleanInfo();
+   
+    
     // document.getElementById('btn-'+type).classList.remove('btn-secondary');
     
 }
