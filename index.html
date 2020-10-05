@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coches</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div class="jumbotrom">
+        <div class="overlay">            
+        </div>
+    </div>
+    <div class="container mt-3 searching-container ">
+        <div class="row ">
+            <div class="col-md-8">
+                <div class="card">
+                    <div id="form-container" class="card-body">
+                        <form id="main-form" onsubmit="event.preventDefault(),summit()" action="/search"><!--on submmit evento cuando se envia el formulario, action hacia donde va, preventdefault evita redireccionar -->
+                            <div class="row">
+                                <div  class="form-group col-md-8 my-auto">
+                                    <!-- <label for="name">Email address</label> -->
+                                    <input type="text" class="form-control" id="search"  placeholder="Buscar por palabra clave">
+                                    
+                                </div>
+                                <div class="col-md-4 my-auto">
+                                    <button type="submit" class="btn btn-primary">Buscar</button>
+                                </div>         
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-group">
+                    <li onclick="changeItems('search')"class="list-group-item btn btn-primary my-1">BUSCAR</li>
+                    <li onclick="changeItems('new')" class="list-group-item btn btn-primary my-1">INGRESAR COCHE</li>
+                    <li onclick="updateCar()" class="list-group-item btn btn-primary my-1">ACTUALIZAR COCHE</li>
+                    <li onclick="deleteCar()" class="list-group-item btn btn-primary my-1">ELIMINAR COCHE</li>
+                    
+                  </ul>
+                
+            </div>
+
+
+        </div>
+        <div class="row bg-light">
+            <div id= "table-container" class="mt-3 table-text ">
+                <table id="table-cars" class="table">
+
+                </table>
+           </div>
+
+        </div>
+              
+    </div>
+  
+   
+</body>
+<script type="module" src="./js/main.js"></script> <!--importante agregar que es un modulo para importatlo-->
+</html>
