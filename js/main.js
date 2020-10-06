@@ -107,24 +107,30 @@ function changeItems(type){
         htmlString= `<form id="main-form" onsubmit="event.preventDefault(),summit('${type}')" action="/search">
                         <div class="row">
                             <div  class="form-group">
+                                <label for="brand">Marca:</label>
                                 <input type="text" class="form-control" id="brand"  placeholder="MARCA" required>
                             </div>
                             <div  class="form-group">
+                                <label for="model">Modelo:</label>
                                 <input type="text" class="form-control" id="model"  placeholder="MODELO" required>
                             </div>
                             <div  class="form-group">
+                                <label for="color">Color:</label>
                                 <input type="text" class="form-control" id="color"  placeholder="COLOR" required>
                             </div>
                             <div  class="form-group">
+                                <label for="year">Año:</label>
                                 <input type="text" class="form-control" id="year"  placeholder="AÑO" required>
                             </div>
                             <div  class="form-group">
+                                <label for="price">Precio:</label>
                                 <input type="text" class="form-control" id="price"  placeholder="PRECIO" required>
                             </div>
-                            <div class="">
-                                <button type="submit" class="btn btn-primary">${textButton}</button>
-                            </div> 
+                            
                         </div>
+                        <div>
+                                <button type="submit" class="btn btn-primary">${textButton}</button>
+                        </div> 
                     </form>`;
     }
     form.innerHTML=htmlString;     
